@@ -10,7 +10,7 @@
 
 ## 🗂️ Database Schema Diagram
 
-![Database Schema](tms_DB.png)
+![Database Schema](backend/tms_DB.png)
 
 _This is the database schema diagram for the TMS backend.  
 If you need to update it, edit it using [draw.io](https://app.diagrams.net/) or [dbdiagram.io](https://dbdiagram.io/) and replace `tms_DB.png`._
