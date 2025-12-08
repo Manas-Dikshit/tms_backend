@@ -1,4 +1,22 @@
 # Transport Management System (TMS) Backend
+#
+# ---
+#
+# ## Database Schema Diagram
+![Database Schema](tms_DB.png)
+_This is the database schema diagram for the TMS backend. If you need to update it, you can use draw.io or dbdiagram.io and replace `tms_DB.png`._
+#
+# ---
+#
+# ## API Documentation
+# - **Swagger UI:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+# - **Postman Collection:** [Add your Postman collection link here]
+#
+# ---
+#
+# ## Test Coverage
+# ![Test Coverage Screenshot](docs/test-coverage.png)
+# _Add a screenshot of your test coverage report here. You can generate this using tools like JaCoCo or IntelliJ._
 
 ## Overview
 This project is a fully functional backend for a Transport Management System (TMS) built with **Spring Boot 4.0**, **Java 17**, and **PostgreSQL**. It is designed to manage loads, transporters, bids, and bookings for a logistics platform. The backend follows best practices for RESTful API design, uses JPA for data persistence, and integrates Swagger/OpenAPI for API documentation.

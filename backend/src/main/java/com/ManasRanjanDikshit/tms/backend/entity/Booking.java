@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
-@Table(name = "bookings")
+@Table(name = "booking")
 @Data
 @Builder
 @NoArgsConstructor

@@ -1,24 +1,31 @@
 package com.ManasRanjanDikshit.tms.backend.service;
 
-import com.ManasRanjanDikshit.tms.backend.dto.LoadRequestDTO;
-import com.ManasRanjanDikshit.tms.backend.dto.LoadResponseDTO;
-import com.ManasRanjanDikshit.tms.backend.entity.Load;
-import com.ManasRanjanDikshit.tms.backend.entity.LoadStatus;
-import com.ManasRanjanDikshit.tms.backend.exception.InvalidStatusTransitionException;
-import com.ManasRanjanDikshit.tms.backend.exception.ResourceNotFoundException;
-import com.ManasRanjanDikshit.tms.backend.repository.LoadRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.UUID;
+import com.ManasRanjanDikshit.tms.backend.dto.BidResponseDTO;
+import com.ManasRanjanDikshit.tms.backend.dto.LoadRequestDTO;
+import com.ManasRanjanDikshit.tms.backend.dto.LoadResponseDTO;
+import com.ManasRanjanDikshit.tms.backend.entity.Bid;
+import com.ManasRanjanDikshit.tms.backend.entity.Load;
+import com.ManasRanjanDikshit.tms.backend.entity.LoadStatus;
+import com.ManasRanjanDikshit.tms.backend.exception.InvalidStatusTransitionException;
+import com.ManasRanjanDikshit.tms.backend.exception.ResourceNotFoundException;
+import com.ManasRanjanDikshit.tms.backend.repository.BidRepository;
+import com.ManasRanjanDikshit.tms.backend.repository.LoadRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
 public class LoadService {
     private final LoadRepository loadRepository;
+    private final BidRepository bidRepository;
 
     @Transactional
     public LoadResponseDTO createLoad(LoadRequestDTO dto) {
@@ -78,5 +85,29 @@ public class LoadService {
                 .status(load.getStatus())
                 .datePosted(load.getDatePosted())
                 .build();
+
     }
-}
+
+    @Transactional(readOnly = true)
+    public Page<LoadResponseDTO> getAllLoads(Pageable pageable) {
+        return loadRepository.findAll(pageable).map(this::toResponseDTO);
+        }
+
+        // Fetch and sort best bid suggestions for a load
+        @Transactional(readOnly = true)
+        public List<BidResponseDTO> getBestBidsForLoad(UUID loadId) {
+        List<Bid> bids = bidRepository.findByLoad_LoadId(loadId);
+        return bids.stream()
+            .sorted(java.util.Comparator.comparingDouble(Bid::getProposedRate))
+            .map(bid -> BidResponseDTO.builder()
+                .bidId(bid.getBidId())
+                .loadId(bid.getLoad().getLoadId())
+                .transporterId(bid.getTransporter().getTransporterId())
+                .proposedRate(bid.getProposedRate())
+                .trucksOffered(bid.getTrucksOffered())
+                .status(bid.getStatus())
+                .submittedAt(bid.getSubmittedAt())
+                .build())
+            .toList();
+        }
+    }

@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BidService {
-    private final BidRepository bidRepository;
+    private final BidRepository bidRepository = null;
     private final LoadRepository loadRepository;
     private final TransporterRepository transporterRepository;
 

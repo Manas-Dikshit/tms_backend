@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.UUID;
 
 @Entity
-@Table(name = "bids",
+@Table(name = "bid",
     uniqueConstraints = {@UniqueConstraint(columnNames = {"load_id", "transporter_id"})})
 @Data
 @Builder
